@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decisão de Carreira - CNPEM vs Nova Oportunidade</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff 0%, #e0e7ff 50%, #f3e8ff 100%);
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-top: 4px solid #2563eb;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .icon-box {
+            background: #2563eb;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+        }
+
+        .icon {
+            width: 32px;
+            height: 32px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1e293b;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #64748b;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #2563eb;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .info-box strong {
+            color: #1e293b;
+        }
+
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .jobs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        .job-card.current {
+            border-top: 4px solid #3b82f6;
+        }
+
+        .job-card.new {
+            border-top: 4px solid #a855f7;
+        }
+
+        .job-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.25rem;
+        }
+
+        .job-desc {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .section {
+            border: 2px solid;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .section.pros {
+            background: #f0fdf4;
+            border-color: #86efac;
+        }
+
+        .section.cons {
+            background: #fef2f2;
+            border-color: #fca5a5;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #1e293b;
+            font-size: 1.125rem;
+            margin-bottom: 1rem;
+        }
+
+        .point {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .point:last-child {
+            margin-bottom: 0;
+        }
+
+        .point-text {
+            font-size: 0.875rem;
+            color: #334155;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .slider-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            width: 6rem;
+        }
+
+        .slider {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #2563eb;
+            cursor: pointer;
+            border: none;
+        }
+
+        .weight-display {
+            width: 3rem;
+            height: 2rem;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+            border-radius: 0.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .score-box {
+            border: 2px solid;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .score-box.current {
+            background: #dbeafe;
+            border-color: #93c5fd;
+        }
+
+        .score-box.new {
+            background: #f3e8ff;
+            border-color: #d8b4fe;
+        }
+
+        .score-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .score-breakdown {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-breakdown.positive {
+            color: #15803d;
+        }
+
+        .score-breakdown.negative {
+            color: #b91c1c;
+        }
+
+        .score-divider {
+            border-top: 2px solid #cbd5e1;
+            padding-top: 0.5rem;
+            margin: 0.75rem 0;
+        }
+
+        .score-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .score-total-label {
+            color: #334155;
+            font-weight: bold;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .score-value.current {
+            color: #2563eb;
+        }
+
+        .score-value.new {
+            color: #a855f7;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            border-top: 4px solid #16a34a;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .result-header .icon-box {
+            background: #16a34a;
+        }
+
+        .result-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #1e293b;
+        }
+
+        .comparison-box {
+            background: #f8fafc;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .scores-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-item-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-item-value {
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .score-item-value.current {
+            color: #2563eb;
+        }
+
+        .score-item-value.new {
+            color: #a855f7;
+        }
+
+        .vs-text {
+            font-size: 2rem;
+            color: #cbd5e1;
+            font-weight: 300;
+        }
+
+        .bar-container {
+            position: relative;
+            height: 3rem;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        .bar-segment {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            transition: width 0.5s ease;
+        }
+
+        .bar-segment.current {
+            left: 0;
+            background: #3b82f6;
+            justify-content: flex-end;
+            padding-right: 1rem;
+        }
+
+        .bar-segment.new {
+            right: 0;
+            background: #a855f7;
+            justify-content: flex-start;
+            padding-left: 1rem;
+        }
+
+        .bar-text {
+            color: white;
+            font-weight: bold;
+            font-size: 0.875rem;
+        }
+
+        .winner-box {
+            border-left: 4px solid;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .winner-box.current {
+            background: #dbeafe;
+            border-color: #3b82f6;
+        }
+
+        .winner-box.new {
+            background: #f3e8ff;
+            border-color: #a855f7;
+        }
+
+        .winner-box.tie {
+            background: #fef3c7;
+            border-color: #f59e0b;
+        }
+
+        .winner-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        .winner-title.current {
+            color: #1e40af;
+        }
+
+        .winner-title.new {
+            color: #7e22ce;
+        }
+
+        .winner-title.tie {
+            color: #92400e;
+        }
+
+        .winner-text {
+            font-size: 1.125rem;
+            color: #334155;
+            margin-bottom: 1rem;
+        }
+
+        .difference-box {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .difference-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .difference-label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .difference-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #16a34a;
+        }
+
+        .progress-bar {
+            width: 100%;
+            background: #e2e8f0;
+            border-radius: 9999px;
+            height: 0.75rem;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #16a34a;
+            border-radius: 9999px;
+            transition: width 0.5s ease;
+        }
+
+        .advice-text {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-top: 1rem;
+        }
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .insights-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .insight-box {
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            padding: 1rem;
+        }
+
+        .insight-title {
+            font-weight: bold;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .insight-text {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .warning-box {
+            background: linear-gradient(to right, #f8fafc, #f1f5f9);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1.25rem;
+        }
+
+        .warning-content {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .warning-icon {
+            width: 24px;
+            height: 24px;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        .warning-text {
+            font-size: 0.875rem;
+            color: #334155;
+        }
+
+        .warning-text strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-text p {
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-text .italic {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-style: italic;
+        }
+
+        .tie-list {
+            background: white;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            font-size: 0.875rem;
+            color: #334155;
+            margin-top: 1rem;
+        }
+
+        .tie-list strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .tie-list ul {
+            margin-top: 0.5rem;
+            margin-left: 1.5rem;
+        }
+
+        .tie-list li {
+            margin-bottom: 0.25rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <div class="icon-box">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1>Decisão de Carreira</h1>
+                    <p class="subtitle">CNPEM vs Nova Oportunidade</p>
+                </div>
+            </div>
+            <div class="info-box">
+                <p><strong>Como usar:</strong> Ajuste os pesos de 1 a 10 em cada ponto conforme a importância para você. Peso 10 = extremamente importante | Peso 1 = pouco importante. O sistema calculará qual vaga faz mais sentido baseado nas suas prioridades.</p>
+            </div>
+        </div>
+
+        <div class="jobs-grid">
+            <!-- CNPEM -->
+            <div class="job-card current" id="currentJob">
+                <div class="job-header">
+                    <h2 class="job-title">CNPEM (Emprego Atual)</h2>
+                    <p class="job-desc">Situação atual - estabilidade conhecida</p>
+                </div>
+
+                <div class="section pros">
+                    <h4 class="section-title">✅ Pontos Positivos</h4>
+                    <div id="currentPros"></div>
+                </div>
+
+                <div class="section cons">
+                    <h4 class="section-title">⚠️ Pontos Negativos</h4>
+                    <div id="currentCons"></div>
+                </div>
+
+                <div class="score-box current">
+                    <div class="score-label">Breakdown da Pontuação</div>
+                    <div class="score-breakdown positive">
+                        <span>Pontos Positivos:</span>
+                        <strong id="currentProsTotal">+25</strong>
+                    </div>
+                    <div class="score-breakdown negative">
+                        <span>Pontos Negativos:</span>
+                        <strong id="currentConsTotal">-25</strong>
+                    </div>
+                    <div class="score-divider"></div>
+                    <div class="score-total">
+                        <span class="score-total-label">Total:</span>
+                        <div class="score-value current" id="currentScore">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nova Vaga -->
+            <div class="job-card new" id="newJob">
+                <div class="job-header">
+                    <h2 class="job-title">Nova Oportunidade - Engenheiro</h2>
+                    <p class="job-desc">Nova oportunidade - crescimento e risco</p>
+                </div>
+
+                <div class="section pros">
+                    <h4 class="section-title">✅ Pontos Positivos</h4>
+                    <div id="newPros"></div>
+                </div>
+
+                <div class="section cons">
+                    <h4 class="section-title">⚠️ Pontos Negativos</h4>
+                    <div id="newCons"></div>
+                </div>
+
+                <div class="score-box new">
+                    <div class="score-label">Breakdown da Pontuação</div>
+                    <div class="score-breakdown positive">
+                        <span>Pontos Positivos:</span>
+                        <strong id="newProsTotal">+20</strong>
+                    </div>
+                    <div class="score-breakdown negative">
+                        <span>Pontos Negativos:</span>
+                        <strong id="newConsTotal">-20</strong>
+                    </div>
+                    <div class="score-divider"></div>
+                    <div class="score-total">
+                        <span class="score-total-label">Total:</span>
+                        <div class="score-value new" id="newScore">0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="result-card">
+            <div class="result-header">
+                <div class="icon-box">
+                    <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                </div>
+                <h2 class="result-title">Análise Final</h2>
+            </div>
+
+            <div class="comparison-box">
+                <div class="scores-display">
+                    <div class="score-item">
+                        <div class="score-item-label">CNPEM</div>
+                        <div class="score-item-value current" id="displayCurrentScore">0</div>
+                    </div>
+                    <div class="vs-text">VS</div>
+                    <div class="score-item">
+                        <div class="score-item-label">Nova Vaga</div>
+                        <div class="score-item-value new" id="displayNewScore">0</div>
+                    </div>
+                </div>
+
+                <div class="bar-container">
+                    <div class="bar-segment current" id="barCurrent" style="width: 50%">
+                        <span class="bar-text" id="barCurrentText">0</span>
+                    </div>
+                    <div class="bar-segment new" id="barNew" style="width: 50%">
+                        <span class="bar-text" id="barNewText">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="resultContent"></div>
+
+            <div class="warning-box">
+                <div class="warning-content">
+                    <svg class="warning-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div class="warning-text">
+                        <strong>⚠️ Lembre-se:</strong>
+                        <p>Esta ferramenta organiza seus pensamentos racionalmente, mas decisões de carreira também envolvem intuição, momento de vida, saúde mental e fatores que números não capturam.</p>
+                        <p class="italic">Se algo não "parece certo" apesar da pontuação, explore esse sentimento. Às vezes seu inconsciente sabe algo importante que ainda não colocou em palavras.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const data = {
+            current: {
+                pros: [
+                    'Empresa de ponta da Tecnologia e Pesquisa',
+                    'Empresa grande e segura',
+                    'Oportunidade com experiência de projetos grandes e complexos',
+                    'Acomodado na cidade',
+                    'Acomodado com a proximidade do trabalho'
+                ],
+                cons: [
+                    'Salário menor',
+                    'Longo período para uma promoção',
+                    'Pode me fazer perder boas oportunidades de fora se escolher ficar no CNPEM',
+                    'Não é híbrido',
+                    'Não tem Participação de Lucros'
+                ]
+            },
+            new: {
+                pros: [
+                    'Salário melhor',
+                    'Vaga de Engenheiro (Um patamar acima)',
+                    'Liderar uma equipe',
+                    'Trabalho Híbrido'
+                ],
+                cons: [
+                    'Filial nova em SP, arriscado',
+                    'Exige grande responsabilidade, experiência nova de gestão',
+                    'Possibilidade de mudar de cidade',
+                    'Empresa menor'
+                ]
+            }
+        };
+
+        const weights = {
+            current: {
+                pros: Array(data.current.pros.length).fill(5),
+                cons: Array(data.current.cons.length).fill(5)
+            },
+            new: {
+                pros: Array(data.new.pros.length).fill(5),
+                cons: Array(data.new.cons.length).fill(5)
+            }
+        };
+
+        function createPoint(text, job, type, index) {
+            return `
+                <div class="point">
+                    <p class="point-text">${text}</p>
+                    <div class="slider-container">
+                        <label class="slider-label">Importância:</label>
+                        <input type="range" min="1" max="10" value="5" 
+                               class="slider" 
+                               oninput="updateWeight('${job}', '${type}', ${index}, this.value)">
+                        <div class="weight-display" id="${job}-${type}-${index}">5</div>
+                    </div>
+                    <div class="slider-labels">
+                        <span>Pouco importante</span>
+                        <span>Muito importante</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function render() {
+            document.getElementById('currentPros').innerHTML = 
+                data.current.pros.map((text, i) => createPoint(text, 'current', 'pros', i)).join('');
+            document.getElementById('currentCons').innerHTML = 
+                data.current.cons.map((text, i) => createPoint(text, 'current', 'cons', i)).join('');
+            document.getElementById('newPros').innerHTML = 
+                data.new.pros.map((text, i) => createPoint(text, 'new', 'pros', i)).join('');
+            document.getElementById('newCons').innerHTML = 
+                data.new.cons.map((text, i) => createPoint(text, 'new', 'cons', i)).join('');
+            
+            updateScores();
+        }
+
+        function updateWeight(job, type, index, value) {
+            weights[job][type][index] = parseInt(value);
+            document.getElementById(`${job}-${type}-${index}`).textContent = value;
+            updateScores();
+        }
+
+        function updateScores() {
+            const currentProsTotal = weights.current.pros.reduce((a, b) => a + b, 0);
+            const currentConsTotal = weights.current.cons.reduce((a, b) => a + b, 0);
+            const currentTotal = currentProsTotal - currentConsTotal;
+
+            const newProsTotal = weights.new.pros.reduce((a, b) => a + b, 0);
+            const newConsTotal = weights.new.cons.reduce((a, b) => a + b, 0);
+            const newTotal = newProsTotal - newConsTotal;
+
+            document.getElementById('currentProsTotal').textContent = `+${currentProsTotal}`;
+            document.getElementById('currentConsTotal').textContent = `-${currentConsTotal}`;
+            document.getElementById('currentScore').textContent = currentTotal;
+            document.getElementById('displayCurrentScore').textContent = currentTotal;
+
+            document.getElementById('newProsTotal').textContent = `+${newProsTotal}`;
+            document.getElementById('newConsTotal').textContent = `-${newConsTotal}`;
+            document.getElementById('newScore').textContent = newTotal;
+            document.getElementById('displayNewScore').textContent = newTotal;
+
+            // Update bar
+            const total = currentTotal + newTotal;
+            const currentPercent = total > 0 ? (currentTotal / total) * 100 : 50;
+            const newPercent = total > 0 ? (newTotal / total) * 100 : 50;
+
+            document.getElementById('barCurrent').style.width = `${currentPercent}%`;
+            document.getElementById('barNew').style.width = `${newPercent}%`;
+            document.getElementById('barCurrentText').textContent = currentTotal;
+            document.getElementById('barNewText').textContent = newTotal;
+
+            updateResult(currentTotal, newTotal);
+        }
+
+        function updateResult(currentTotal, newTotal) {
+            const difference = Math.abs(currentTotal - newTotal);
+            let html = '';
+
+            if (currentTotal === newTotal) {
+                html = `
+                    <div class="winner-box tie">
+                        <h3 class="winner-title tie">🤝 Empate Técnico!</h3>
+                        <p class="winner-text">Ambas as vagas pontuaram igualmente (${currentTotal} pontos). Isso significa que, objetivamente, as duas opções estão equilibradas para você baseado nas suas prioridades atuais.</p>
+                        <div class="tie-list">
+                            <strong>O que fazer agora:</strong>
+                            <ul>
+                                <li>Reavalie os pesos - algo realmente tem o mesmo peso?</li>
+                                <li>Considere fatores intangíveis (intuição, "feeling" com a equipe)</li>
+                                <li>Pense no você daqui 5 anos - qual escolha te aproxima mais dessa pessoa?</li>
+                            </ul>
+                        </div>
+                    </div>
+                `;
+            } else {
+                const winner = currentTotal > newTotal ? 'current' : 'new';
+                const winnerName = winner === 'current' ? 'CNPEM' : 'Nova Oportunidade - Engenheiro';
+                const winnerClass = winner === 'current' ? 'current' : 'new';
+                const maxScore = Math.max(currentTotal, newTotal);
+                const progressPercent = (difference / maxScore) * 100;
+
+                let advice = '';
+                if (difference > 15) {
+                    advice = '✅ Diferença significativa - a escolha parece clara baseado nas suas prioridades!';
+                } else if (difference > 8) {
+                    advice = '⚠️ Diferença moderada - revise os pesos dos pontos mais importantes se ainda tiver dúvidas.';
+                } else {
+                    advice = '⚡ Diferença pequena - as opções estão bem equilibradas. Considere fatores adicionais.';
+                }
+
+                const whyWon = winner === 'current' 
+                    ? 'Os pontos posit
